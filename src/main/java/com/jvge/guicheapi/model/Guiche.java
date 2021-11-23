@@ -9,6 +9,7 @@ public class Guiche {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
     private long id;
     private Integer numero;
     private LocalDateTime data;
@@ -27,6 +28,28 @@ public class Guiche {
         this.usuario = usuario;
     }
 
+    @Override
+    public String toString() {
+        return "Guiche{" +
+                "id=" + id +
+                ", numero=" + numero +
+                ", data=" + data +
+                ", usuario=" + usuario +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Guiche guiche = (Guiche) o;
+        return id == guiche.id && Objects.equals(numero, guiche.numero) && Objects.equals(data, guiche.data) && Objects.equals(usuario, guiche.usuario);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, numero, data, usuario);
+    }
 
     public Usuario getUsuario() {
         return usuario;
@@ -60,26 +83,4 @@ public class Guiche {
         this.data = data;
     }
 
-    @Override
-    public String toString() {
-        return "Guiche{" +
-                "id=" + id +
-                ", numero=" + numero +
-                ", data=" + data +
-                ", usuario=" + usuario +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Guiche guiche = (Guiche) o;
-        return id == guiche.id && Objects.equals(numero, guiche.numero) && Objects.equals(data, guiche.data) && Objects.equals(usuario, guiche.usuario);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, numero, data, usuario);
-    }
 }
