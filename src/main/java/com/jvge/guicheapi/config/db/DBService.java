@@ -18,7 +18,15 @@ public class DBService {
 
     public void instaciaBaseDeDados(){
         Usuario user1 = new Usuario("dias", "123", "teste", "adm");
+        Usuario user2 = new Usuario("Vitor", "123", "teste", "user");
+        Usuario user3 = new Usuario("Mateus", "123", "teste", "user");
+        Usuario user4 = new Usuario("Jose", "123", "teste", "user");
+
+
         Guiche guiche1 = new Guiche(01,user1);
+        Guiche guiche2 = new Guiche(02,user2);
+        Guiche guiche3 = new Guiche(03,user3);
+        Guiche guiche4 = new Guiche(04,user4);
 
         this.usuarioRepository.save(user1);
         this.guicheRepository.save(guiche1);

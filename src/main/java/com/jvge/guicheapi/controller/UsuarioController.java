@@ -4,14 +4,12 @@ import com.jvge.guicheapi.controller.dto.UsuarioDTO;
 import com.jvge.guicheapi.model.Usuario;
 import com.jvge.guicheapi.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @CrossOrigin("*")
@@ -22,20 +20,21 @@ public class UsuarioController {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    //http://localhost:8080/usuario?nomeGuerra=dias
-    /*@GetMapping
-    @Cacheable(value = "listaDeUsuarios")
-    public ResponseEntity<Page<UsuarioDTO>> listaPaginada(@RequestParam(required = false) String nomeGuerra,
-                                                         @PageableDefault(sort = "id", page = 0, size = 10) Pageable paginacao) {
-        Page<Usuario> usuarios = usuarioRepository.findAll(paginacao);
-        return ResponseEntity.ok().body(UsuarioDTO.)
-    }*/
-
     @GetMapping
     public ResponseEntity<List<UsuarioDTO>> lista(){
         List<Usuario> lista = usuarioRepository.findAll();
         List<UsuarioDTO> listaDto = lista.stream().map(UsuarioDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok().body(listaDto);
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Usuario> findById(@PathVariable("id") long id){
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
+        if (usuario.isPresent()){
+            return new ResponseEntity<>(usuario.get(), HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
 }
