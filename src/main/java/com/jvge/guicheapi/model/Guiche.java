@@ -12,8 +12,8 @@ public class Guiche {
     @Column(name = "id", nullable = false)
     private long id;
     private Integer numero;
-    private LocalDateTime data;
-    @OneToMany
+    private LocalDateTime data = LocalDateTime.now();
+    @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
@@ -21,10 +21,8 @@ public class Guiche {
     public Guiche() {
     }
 
-    public Guiche(long id, Integer numero, LocalDateTime data, Usuario usuario) {
-        this.id = id;
+    public Guiche(Integer numero, Usuario usuario) {
         this.numero = numero;
-        this.data = data;
         this.usuario = usuario;
     }
 

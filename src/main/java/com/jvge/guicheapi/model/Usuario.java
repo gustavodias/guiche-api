@@ -17,8 +17,7 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(Long id, String nomeGuerra, String senha, String setor, String tipo) {
-        this.id = id;
+    public Usuario(String nomeGuerra, String senha, String setor, String tipo) {
         this.nomeGuerra = nomeGuerra;
         this.senha = senha;
         this.setor = setor;

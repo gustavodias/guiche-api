@@ -17,10 +17,6 @@ public class UsuarioDTO {
         this.tipo = usuario.getTipo();
     }
 
-    public static Page<UsuarioDTO> converte(Page<Usuario> usuarios){
-        return usuarios.map(UsuarioDTO::new);
-    }
-
     public Long getId() {
         return id;
     }
