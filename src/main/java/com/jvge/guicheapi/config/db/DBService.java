@@ -6,6 +6,8 @@ import com.jvge.guicheapi.repository.GuicheRepository;
 import com.jvge.guicheapi.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+
 @Service
 public class DBService {
     private UsuarioRepository usuarioRepository;
@@ -28,7 +30,8 @@ public class DBService {
         Guiche guiche3 = new Guiche(03,user3);
         Guiche guiche4 = new Guiche(04,user4);
 
-        this.usuarioRepository.save(user1);
-        this.guicheRepository.save(guiche1);
+
+        this.usuarioRepository.saveAll(Arrays.asList(user1, user2, user3, user4));
+        this.guicheRepository.saveAll(Arrays.asList(guiche1, guiche2, guiche3, guiche4));
     }
 }
