@@ -22,20 +22,19 @@ public class GuicheController {
 
     @GetMapping
     public ResponseEntity<List<GuicheDTO>> listarGuiche(){
-        List<Guiche> guiches = guicheRepository.findAll();
-        List<GuicheDTO> guicheDTOS = guiches.stream().map(GuicheDTO::new).collect(Collectors.toList());
+        var guiches = guicheRepository.findAll();
+        var guicheDTOS = guiches.stream().map(GuicheDTO::new).collect(Collectors.toList());
 
         return ResponseEntity.ok().body(guicheDTOS);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Guiche> getGuicheById(@PathVariable("id") long id){
-        Optional<Guiche> guiche = guicheRepository.findById(id);
+    public ResponseEntity<GuicheDTO> getGuicheById(@PathVariable("id") long id){
 
-        if (guiche.isPresent()){
-            return new ResponseEntity<>(guiche.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        var guiche = guicheRepository.findById(id);
+
+        return guiche.map(value -> ResponseEntity.ok(new GuicheDTO(value)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
 }
