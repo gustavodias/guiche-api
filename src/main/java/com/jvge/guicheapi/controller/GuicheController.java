@@ -37,6 +37,5 @@ public class GuicheController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
     }
 }

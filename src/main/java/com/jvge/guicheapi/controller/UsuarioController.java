@@ -28,13 +28,10 @@ public class UsuarioController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Usuario> findById(@PathVariable("id") long id){
-        Optional<Usuario> usuario = usuarioRepository.findById(id);
-        if (usuario.isPresent()){
-            return new ResponseEntity<>(usuario.get(), HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<UsuarioDTO> findByID(@PathVariable("id") long id){
+        var obj = usuarioRepository.findById(id);
+        return obj.map(value -> ResponseEntity.ok(new UsuarioDTO(value))).orElseGet(() ->
+                                ResponseEntity.notFound().build());
     }
 
 }
