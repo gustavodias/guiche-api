@@ -1,15 +1,12 @@
 package com.jvge.guicheapi.controller;
 
 import com.jvge.guicheapi.controller.dto.GuicheDTO;
-import com.jvge.guicheapi.model.Guiche;
 import com.jvge.guicheapi.repository.GuicheRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @CrossOrigin("*")
