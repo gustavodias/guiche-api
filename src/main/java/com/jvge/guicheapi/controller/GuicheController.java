@@ -5,6 +5,7 @@ import com.jvge.guicheapi.controller.form.guiche.GuicheForm;
 import com.jvge.guicheapi.model.Guiche;
 import com.jvge.guicheapi.repository.GuicheRepository;
 import com.jvge.guicheapi.repository.UsuarioRepository;
+import com.jvge.guicheapi.service.GuicheService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @CrossOrigin("*")
@@ -20,36 +22,36 @@ import java.util.stream.Collectors;
 @RequestMapping("/guiche")
 public class GuicheController {
 
-    @Autowired
-    private GuicheRepository guicheRepository;
+    private final GuicheService guicheService;
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    public GuicheController(final GuicheService guicheService) {
+        this.guicheService = guicheService;
+    }
 
     @GetMapping
-    public ResponseEntity<List<GuicheDTO>> listarGuiche(){
-        var guiches = guicheRepository.findAll();
-        var guicheDTOS = guiches.stream().map(GuicheDTO::new).collect(Collectors.toList());
+    public ResponseEntity<List<GuicheDTO>> findAllGuiches(){
+        var guicheDTOS = guicheService.findAll();
 
-        return ResponseEntity.ok().body(guicheDTOS);
+        if (guicheDTOS.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }else {
+            return ResponseEntity.ok().body(guicheDTOS);
+        }
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<GuicheDTO> getGuicheById(@PathVariable("id") long id){
+    public ResponseEntity<GuicheDTO> findOneGuiche(@PathVariable ("id") long id){
+        Optional<Guiche> guiche = guicheService.findById(id);
 
-        var guiche = guicheRepository.findById(id);
-
-        return guiche.map(value -> ResponseEntity.ok(new GuicheDTO(value)))
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        return guiche.map(value -> ResponseEntity.ok(new GuicheDTO(value))).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<GuicheDTO> cadastrar(@RequestBody @Valid GuicheForm form, UriComponentsBuilder uriComponentsBuilder){
-        Guiche guiche = form.converter(usuarioRepository);
-        guicheRepository.save(guiche);
+    public ResponseEntity<GuicheDTO> saveGuiche(@RequestBody @Valid GuicheForm guicheForm, UriComponentsBuilder uriComponentsBuilder){
+        GuicheDTO guicheDTO = guicheService.save(guicheForm);
 
-        URI uri = uriComponentsBuilder.path("guiche/{id}").buildAndExpand(guiche.getId()).toUri();
+        URI uri = uriComponentsBuilder.path("guiche/{id}").buildAndExpand(guicheDTO.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(new GuicheDTO(guiche));
+        return ResponseEntity.created(uri).body(guicheDTO);
     }
 }

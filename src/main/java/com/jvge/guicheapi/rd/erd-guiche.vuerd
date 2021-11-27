@@ -425,7 +425,7 @@
           }
         ],
         "ui": {
-          "active": true,
+          "active": false,
           "left": 604.4,
           "top": 278,
           "zIndex": 7,
@@ -445,7 +445,7 @@
     "relationships": [
       {
         "identification": false,
-        "relationshipType": "ZeroN",
+        "relationshipType": "OneN",
         "startRelationshipType": "Dash",
         "start": {
           "tableId": "ce230ca7-d126-4bf4-a4c6-afe7b3d20c28",
