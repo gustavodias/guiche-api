@@ -1,7 +1,6 @@
 package com.jvge.guicheapi.controller.dto;
 
 import com.jvge.guicheapi.model.Usuario;
-import org.springframework.data.domain.Page;
 
 public class UsuarioDTO {
 
