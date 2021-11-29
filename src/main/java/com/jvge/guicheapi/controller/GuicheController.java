@@ -2,6 +2,7 @@ package com.jvge.guicheapi.controller;
 
 import com.jvge.guicheapi.controller.dto.GuicheDTO;
 import com.jvge.guicheapi.controller.form.guiche.GuicheForm;
+import com.jvge.guicheapi.controller.form.guiche.GuicheUpdateForm;
 import com.jvge.guicheapi.model.Guiche;
 import com.jvge.guicheapi.service.GuicheService;
 import org.springframework.http.ResponseEntity;
@@ -50,4 +51,30 @@ public class GuicheController {
 
         return ResponseEntity.created(uri).body(guicheDTO);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<GuicheDTO> updateGuiche(@PathVariable("id") Long id, @RequestBody @Valid GuicheUpdateForm guicheUpdateForm){
+
+        var guicheOptional = guicheService.findById(id);
+
+        if (!guicheOptional.isPresent()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(guicheService.update(id, guicheUpdateForm));
+        }
+
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteGuiche(@PathVariable("id") long id){
+        Optional<Guiche> guicheOptional = guicheService.findById(id);
+
+        if (!guicheOptional.isPresent()){
+            return ResponseEntity.notFound().build();
+        } else {
+            guicheService.delete(guicheOptional.get());
+            return ResponseEntity.ok().build();
+        }
+    }
+
 }

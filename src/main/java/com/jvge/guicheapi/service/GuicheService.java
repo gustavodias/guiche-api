@@ -2,10 +2,12 @@ package com.jvge.guicheapi.service;
 
 import com.jvge.guicheapi.controller.dto.GuicheDTO;
 import com.jvge.guicheapi.controller.form.guiche.GuicheForm;
+import com.jvge.guicheapi.controller.form.guiche.GuicheUpdateForm;
 import com.jvge.guicheapi.model.Guiche;
 import com.jvge.guicheapi.repository.GuicheRepository;
 import com.jvge.guicheapi.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,4 +43,16 @@ public class GuicheService {
 
         return new GuicheDTO(guiche);
     }
+
+    @Transactional
+    public GuicheDTO update(Long id, GuicheUpdateForm guicheUpdateForm){
+        var guicheOptional = guicheUpdateForm.atualizarGuiche(id, guicheRepository);
+
+        return new GuicheDTO(guicheOptional);
+    }
+
+    public void delete(Guiche guiche){
+        guicheRepository.delete(guiche);
+    }
+
 }
